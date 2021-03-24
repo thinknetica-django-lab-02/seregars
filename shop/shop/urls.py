@@ -21,5 +21,6 @@ from main import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('pages/', include('django.contrib.flatpages.urls'))
+    path('pages/', include('django.contrib.flatpages.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
