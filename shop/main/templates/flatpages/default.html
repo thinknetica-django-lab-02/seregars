@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {{ flatpage.content }}
-</body>
-</html>
+{% extends 'main/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block content %}
+{{ flatpage.content }}
+{% endblock %}

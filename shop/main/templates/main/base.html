@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="\static\css\style.css">
+</head>
+<body>
+    <header class="header">
+        <container class="container">
+            <h1>ShopName</h1>
+                <ul>
+                    <a href="/">Главная</a>
+                    <a href="#">Каталог</a>
+                    <a href="/about">О нас</a>
+                    <a href="/contacts">Контакты</a>
+                </ul>
+        </container>
+    </header>
+    <main class="main">
+        <container class="container">{% block content %}{% endblock %}</container>
+    </main>
+    <footer class="footer">
+        <container class="container">
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, incidunt.</p>
+            <ul>
+                <a href="/">Главная</a>
+                <a href="#">Каталог</a>
+                <a href="/about">О нас</a>
+                <a href="/contacts">Контакты</a>
+            </ul>
+        </container>
+    </footer>
+</body>
+</html>
