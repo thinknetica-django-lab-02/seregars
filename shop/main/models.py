@@ -5,6 +5,9 @@ class Category(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class Product(models.Model):
     title = models.CharField(max_length=200)
@@ -12,10 +15,19 @@ class Product(models.Model):
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class Tags(models.Model):
     title = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.title
+
 
 class Seller(models.Model):
     name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
