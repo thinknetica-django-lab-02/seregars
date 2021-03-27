@@ -14,6 +14,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    in_stock = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
