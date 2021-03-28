@@ -3,7 +3,11 @@
 {% block title %} Главная страница {% endblock %}
 
 {% block content %}
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate doloremque excepturi explicabo labore, laborum
-    laudantium nihil nisi nostrum perferendis ratione sed tempora temporibus, ut velit voluptate. At praesentium
-    repellat voluptates.</p>
+<div>
+    {% if turn_on %}
+        <div><p>Turn on block is True</p></div>
+    {% else %}
+    {% endif %}
+    <p>Имя текущего пользователя {{ user }}</p>
+</div>
 {% endblock %}
