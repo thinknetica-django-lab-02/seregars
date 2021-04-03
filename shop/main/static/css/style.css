@@ -23,6 +23,7 @@ header{
     background-color: rgb(61, 61, 61);
 }
 header .container{
+    color: ivory;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,28 +31,25 @@ header .container{
 }
 header h1 {
     font-size: 30;
-    color: ivory;
 }
 header a {
-    color: ivory;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 25px;
     margin-left: 10px;
+    color: ivory;
 }
 header a:hover {
     color: #ffffbe;
 }
 
 main{
-    grid-row: 2;  
+    grid-row: 2;
 }
 main .container{
     display: flex;
     min-height: 100%;
     background-color: ivory;
 }
-    
-
 
 footer{
     grid-row: 3;
