@@ -1,4 +1,6 @@
 {% extends 'main/base.html' %}
+{% load main_tags %}
+
 
 {% block title %} Главная страница {% endblock %}
 
@@ -13,5 +15,7 @@
     {% else %}
     {% endif %}
     <p>Имя текущего пользователя {{ user }}</p>
+    <p>Текущее время: {% current_time "%Y-%m-%d %I:%M %p" %}</p>
+    <p>{% invert_string "Инвертированная строка" %}</p>
 </div>
 {% endblock %}
