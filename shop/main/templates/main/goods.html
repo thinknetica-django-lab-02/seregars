@@ -4,21 +4,68 @@
 {% block title %} Товары {% endblock %}
 
 {% block header %}
-    {% include 'main/header.html' %}
+{% include 'main/header.html' %}
 {% endblock %}
 
 {% block content %}
-    <h1>Product List</h1>
-
-    {% if goods %}
+{% if goods %}
+<div>
+    {% for product in goods %}
     <ul>
-        {% for product in goods %}
-        <li>
-            <a href="/goods/{{ product.id }}/">{{ product.title }}</a> ({{ product.price }})
-        </li>
-        {% endfor %}
+        <a href="/goods/{{ product.id }}/">{{ product.title }}</a> ({{ product.price }})
     </ul>
+    {% endfor %}
     {% else %}
-        <p>Нет товаров</p>
+    <p>Нет товаров</p>
     {% endif %}
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div>
+        {% if page_obj.has_previous %}
+        {% if page_obj.number|add:'-1' > 1 %}
+        <a href="{{ request.path }}?tag={{ tag.title }}&page=1">1</a>
+        {% endif %}
+        {% if page_obj.number|add:'-2' >= 2 %}
+        <a href="{{ request.path }}?tag={{ tag.title }}&page={{ page_obj.previous_page_number|add:'-2' }}">
+            <span>...</span>
+        </a>
+        {% endif %}
+        {% endif %}
+        {% if paginator.page_range|length > 1 %}
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        {{ i }}
+        {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+        <a href="{{ request.path }}?tag={{ tag.title }}&page={{ i }}">{{ i }}</a>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if page_obj.has_next %}
+        {% if page_obj.number|add:'2' < page_obj.paginator.num_pages %}
+        <a href="{{ request.path }}?tag={{ tag.title }}&page={{ page_obj.next_page_number|add:'1' }}">
+            <span>...</span>
+        </a>
+        {% endif %}
+        {% if page_obj.number|add:'1' < page_obj.paginator.num_pages %}
+        <a href="{{ request.path }}?tag={{ tag.title }}&page={{ page_obj.paginator.num_pages }}">
+            {{ page_obj.paginator.num_pages }}
+        </a>
+        {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% if tags %}
+<div>
+    {% for tag in tags %}
+    <ul>
+        <a href="{{ request.path }}?tag={{ tag.title }}">{{ tag.title }}</a>
+    </ul>
+    {% endfor %}
+    {% else %}
+    <p>Нет тэгов</p>
+    {% endif %}
+</div>
+
+
 {% endblock %}
