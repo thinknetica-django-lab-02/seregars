@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic import FormView
 
+from .forms import ProfileForm
 from .models import Product, Tag
 
 
@@ -33,3 +35,13 @@ class ProductListView(generic.ListView):
 class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'main/detail_goods.html'
+
+
+class UpdateView(FormView):
+    template_name = 'profile.html'
+
+
+    def get(self, request, *args, **kwargs):
+        form = ProfileForm()
+        context = {'form': form}
+        return render(request, 'main/profile.html', context)
