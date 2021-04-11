@@ -1,8 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import generic
-from django.views.generic import FormView
 
-from .forms import ProfileForm
+from .forms import ProfileForm, ProfileFormSet
 from .models import Product, Tag
 
 
@@ -37,11 +38,16 @@ class ProductDetailView(generic.DetailView):
     template_name = 'main/detail_goods.html'
 
 
-class UpdateView(FormView):
-    template_name = 'profile.html'
+def user_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+        formset = ProfileFormSet(request.POST, request.FILES, instance=user)
+        if form.is_valid() and formset.is_valid():
+            user.save()
+            return HttpResponseRedirect(reverse('profile'))
+    else:
+        form = ProfileForm(instance=user)
+        formset = ProfileFormSet(instance=user)
 
-
-    def get(self, request, *args, **kwargs):
-        form = ProfileForm()
-        context = {'form': form}
-        return render(request, 'main/profile.html', context)
+    return render(request, 'main/profile.html', {'form': form, 'formset': formset})
