@@ -1,14 +1,32 @@
 {% extends 'main/base.html' %}
 
+{% block title %} {{ title }} {% endblock %}
 
-{% block title %} Профиль пользователя{% endblock %}
-
-{% block header %}
-{% include 'main/header.html' %}
-{% endblock %}
+{% block header %} {% include 'main/header.html' %} {% endblock %}
 
 {% block content %}
-<div style="margin-bottom: 100px; margin-top: 100px">
-    {{form}}
-</div>
+<form action="" method="post">
+
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+    <table>
+    {% for field in form %}
+        <tr>
+            <th>{{ field.label }}</th><td>{{ field }}</td>
+        </tr>
+    {% endfor %}
+    {% for form in formset %}
+        {{form.id}}
+        <tr>
+            <th>Обо мне</th><td>{{ form.about }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <div>
+        <input type="submit" value="Сохранить" />
+    </div>
+
+</form>
 {% endblock %}
