@@ -121,3 +121,5 @@ STATIC_URL = '/static/'
 CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
 
 SITE_ID = 1
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
