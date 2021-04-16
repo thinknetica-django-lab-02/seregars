@@ -2,9 +2,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
+from django.views.generic import UpdateView
 
 from .forms import ProfileForm, ProfileFormSet
-from .models import Product
+from .models import Product, Tag
 
 
 def index(request):
@@ -52,3 +53,16 @@ def user_profile(request):
 
     return render(request, 'main/profile.html', {'form': form, 'formset': formset})
 
+
+class ProductCreate(generic.edit.CreateView):
+    model = Product
+    fields = [field.name for field in Product._meta.get_fields()]
+    template_name = 'main/create_product.html'
+    success_url = 'add'
+
+
+class ProductUpdate(UpdateView):
+    model = Product
+    fields = [field.name for field in Product._meta.get_fields()]
+    template_name_suffix = '_update'
+    success_url = '/goods'
