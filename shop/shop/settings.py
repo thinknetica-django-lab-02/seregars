@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'ckeditor',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
