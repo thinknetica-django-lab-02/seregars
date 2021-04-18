@@ -10,7 +10,7 @@
     </ul>
     <div style="text-align: right; color: ivory">
         {% thumbnail user.profile.avatar "40x40" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
         {% endthumbnail %}
         Пользователь: {{ user }}
     </div>
