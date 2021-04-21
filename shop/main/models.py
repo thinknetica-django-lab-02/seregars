@@ -27,7 +27,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     in_stock = models.BooleanField(default=True)
     tags = models.ManyToManyField(Tag)
-    image = ImageField(null=True, upload_to='main/static/images/goods')
+    image = ImageField(null=True, upload_to='media/images/goods/')
 
     def __str__(self):
         return self.title
@@ -44,7 +44,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.CharField(max_length=500, null=True)
     birth_date = models.DateField(default=datetime.today)
-    avatar = ImageField(null=True, upload_to='main/static/images/users')
+    avatar = ImageField(null=True, upload_to='media/images/users/')
 
     def __str__(self):
         return self.user.username
