@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-
+{% load thumbnail %}
 
 {% block title %} {{ product.title }} {% endblock %}
 
@@ -10,6 +10,9 @@
 {% block content %}
 <div>
     <h1>{{ product.title }}</h1>
+    {% thumbnail product.image "200x200" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
     <p><b>Цена: </b>{{ product.price }}</p>
     <p><b>Описание: </b>{{ product.description }}</p>
     <p><b>Категория: </b>{{ product.category }}</p>
