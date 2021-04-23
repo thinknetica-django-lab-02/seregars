@@ -1,7 +1,12 @@
-from django.contrib.auth.models import User
+from datetime import datetime
+from django.contrib.auth.models import User, Group
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
+from sorl.thumbnail import ImageField
+
+from shop.settings import MEDIA_ROOT
 
 
 class Category(models.Model):
@@ -26,6 +31,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     in_stock = models.BooleanField(default=True)
     tags = models.ManyToManyField(Tag)
+    image = ImageField(null=True, upload_to=f'{MEDIA_ROOT}images/goods')
 
     def __str__(self):
         return self.title
@@ -41,17 +47,16 @@ class Seller(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.CharField(max_length=500, null=True)
+    birth_date = models.DateField(default=datetime.today)
+    avatar = ImageField(null=True, upload_to=f'{MEDIA_ROOT}/images/users')
 
     def __str__(self):
         return self.user.username
 
+    def get_absolute_url(self):
+        return reverse('profile')
 
 @receiver(post_save, sender=User)
-def create_user_profile(instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(instance, **kwargs):
-    instance.profile.save()
+        instance.groups.add(Group.objects.get(name='common_users'))
