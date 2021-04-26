@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.models import User, Group
+from django.core.mail import send_mail
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -60,3 +61,5 @@ class Profile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         instance.groups.add(Group.objects.get(name='common_users'))
+        send_mail("Добро пожаловать", "Вы зарегистрировались", 'from@example.com', [instance.email],
+                  html_message='<html><body><h1>Добро пожаловать!</h1></body></html>')
