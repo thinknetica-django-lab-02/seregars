@@ -78,15 +78,17 @@ class UserProfile(LoginRequiredMixin, UpdateView):
             return self.form_invalid(form)
 
 
-class ProductCreate(generic.edit.CreateView):
+class ProductCreate(generic.edit.CreateView, LoginRequiredMixin):
+    """ Создание товара """
     model = Product
-    fields = [field.name for field in Product._meta.get_fields()]
+    fields = ['title', 'price', 'description', 'category', 'in_stock', 'tags', 'image',]
     template_name = 'main/create_product.html'
-    success_url = 'add'
+    success_url = '/add'
 
 
 class ProductUpdate(UpdateView):
+    """ Редактирование товара """
     model = Product
-    fields = [field.name for field in Product._meta.get_fields()]
+    fields = ['title', 'price', 'description', 'category', 'in_stock', 'tags', 'image', ]
     template_name_suffix = '_update'
     success_url = '/goods'
