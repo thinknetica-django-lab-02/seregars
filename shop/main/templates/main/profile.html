@@ -19,6 +19,9 @@
     {% for form in formset %}
         {{form.id}}
         <tr>
+            <th>Возраст</th><td>{{ form.birth_date }}</td><td style="color: red; ">{{ form.birth_date.errors }}</td>
+        </tr>
+        <tr>
             <th>Обо мне</th><td>{{ form.about }}</td>
         </tr>
     {% endfor %}

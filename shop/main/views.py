@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 
 from .forms import ProfileForm, ProfileFormSet
-from .models import Product, Tag
+from .models import Product
 
 
 def index(request):
@@ -51,3 +51,4 @@ def user_profile(request):
         formset = ProfileFormSet(instance=user)
 
     return render(request, 'main/profile.html', {'form': form, 'formset': formset})
+
