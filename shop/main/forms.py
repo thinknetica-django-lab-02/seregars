@@ -1,5 +1,4 @@
 import datetime
-from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, DateField, Textarea, ModelForm
@@ -10,7 +9,7 @@ from .models import Profile
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', )
+        fields = ('username', 'first_name', 'last_name', 'email',)
 
 
 class BirthDateField(DateField):
@@ -26,11 +25,11 @@ class BirthDateField(DateField):
 
 
 ProfileFormset = inlineformset_factory(User,
-    Profile, extra = 1,
-    fields = ('birth_date', 'about'),
-    field_classes = {
-        'birth_date': BirthDateField,
-    },
-    widgets = {
-        'about': Textarea,
-    })
+                                       Profile, extra=1,
+                                       fields=('birth_date', 'about'),
+                                       field_classes={
+                                           'birth_date': BirthDateField,
+                                       },
+                                       widgets={
+                                           'about': Textarea,
+                                       })

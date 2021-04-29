@@ -2,11 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
 from django.views import generic
 from django.views.generic import UpdateView
 
-from .forms import  ProfileFormset, UserForm
+from .forms import ProfileFormset, UserForm
 from .models import Product, Tag
 
 
@@ -41,24 +40,12 @@ class ProductDetailView(generic.DetailView):
     template_name = 'main/detail_goods.html'
 
 
-# def user_profile(request):
-#     user = request.user
-#     if request.method == 'POST':
-#         form = ProfileForm(request.POST, request.FILES, instance=user)
-#         formset = ProfileFormSet(request.POST, request.FILES, instance=user)
-#         if form.is_valid() and formset.is_valid():
-#             user.save()
-#             return HttpResponseRedirect(reverse('profile'))
-#     else:
-#         form = ProfileForm(instance=user)
-#         formset = ProfileFormSet(instance=user)
-#
-#     return render(request, 'main/profile.html', {'form': form, 'formset': formset})
 class UserProfile(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'main/profile.html'
     success_url = '/accounts/profile/'
     form_class = UserForm
+    redirect_field_name = 'redirect_to'
 
     def get_object(self, request):
         return request.user
@@ -89,6 +76,7 @@ class UserProfile(LoginRequiredMixin, UpdateView):
             return self.form_valid_formset(form, formset)
         else:
             return self.form_invalid(form)
+
 
 class ProductCreate(generic.edit.CreateView):
     model = Product
