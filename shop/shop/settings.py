@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'ckeditor',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -117,6 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
 

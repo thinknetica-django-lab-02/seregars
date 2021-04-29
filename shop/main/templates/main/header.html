@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <h1>ShopName</h1>
 <div>
     <ul>
@@ -6,5 +8,10 @@
         <a href="/about">О нас</a>
         <a href="/contacts">Контакты</a>
     </ul>
-    <p style="text-align: right; color: ivory">Пользователь: {{ user }}</p>
+    <div style="text-align: right; color: ivory">
+        {% thumbnail user.profile.avatar "40x40" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        Пользователь: {{ user }}
+    </div>
 </div>

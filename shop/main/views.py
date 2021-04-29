@@ -1,10 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from django.views.generic import UpdateView
 
-from .forms import ProfileForm, ProfileFormSet
+from .forms import  ProfileFormset, UserForm
 from .models import Product, Tag
 
 
@@ -39,20 +41,54 @@ class ProductDetailView(generic.DetailView):
     template_name = 'main/detail_goods.html'
 
 
-def user_profile(request):
-    user = request.user
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=user)
-        formset = ProfileFormSet(request.POST, request.FILES, instance=user)
-        if form.is_valid() and formset.is_valid():
-            user.save()
-            return HttpResponseRedirect(reverse('profile'))
-    else:
-        form = ProfileForm(instance=user)
-        formset = ProfileFormSet(instance=user)
+# def user_profile(request):
+#     user = request.user
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST, request.FILES, instance=user)
+#         formset = ProfileFormSet(request.POST, request.FILES, instance=user)
+#         if form.is_valid() and formset.is_valid():
+#             user.save()
+#             return HttpResponseRedirect(reverse('profile'))
+#     else:
+#         form = ProfileForm(instance=user)
+#         formset = ProfileFormSet(instance=user)
+#
+#     return render(request, 'main/profile.html', {'form': form, 'formset': formset})
+class UserProfile(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'main/profile.html'
+    success_url = '/accounts/profile/'
+    form_class = UserForm
 
-    return render(request, 'main/profile.html', {'form': form, 'formset': formset})
+    def get_object(self, request):
+        return request.user
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['formset'] = ProfileFormset(instance=self.get_object(kwargs['request']))
+        return context
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(request)
+        return self.render_to_response(self.get_context_data(request=request))
+
+    def form_valid_formset(self, form, formset):
+        if formset.is_valid():
+            formset.save(commit=False)
+            formset.save()
+        else:
+            return HttpResponseRedirect(self.get_success_url())
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(request)
+        form = self.get_form()
+        formset = ProfileFormset(self.request.POST, self.request.FILES, instance=self.object)
+        if form.is_valid():
+            return self.form_valid_formset(form, formset)
+        else:
+            return self.form_invalid(form)
 
 class ProductCreate(generic.edit.CreateView):
     model = Product

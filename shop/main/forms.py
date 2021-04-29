@@ -2,15 +2,15 @@ import datetime
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms import inlineformset_factory, DateField, Textarea
+from django.forms import inlineformset_factory, DateField, Textarea, ModelForm
 
 from .models import Profile
 
 
-class ProfileForm(forms.ModelForm):
+class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', ]
+        fields = ('username', 'first_name', 'last_name', 'email', )
 
 
 class BirthDateField(DateField):
@@ -25,5 +25,12 @@ class BirthDateField(DateField):
             raise ValidationError("Возраст должен быть больше 18 лет")
 
 
-ProfileFormSet = inlineformset_factory(User, Profile, extra=1, fields=('about', 'birth_date',),
-                                       field_classes={'birth_date': BirthDateField, }, widgets={'about': Textarea})
+ProfileFormset = inlineformset_factory(User,
+    Profile, extra = 1,
+    fields = ('birth_date', 'about'),
+    field_classes = {
+        'birth_date': BirthDateField,
+    },
+    widgets = {
+        'about': Textarea,
+    })
